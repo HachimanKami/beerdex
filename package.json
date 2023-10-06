@@ -24,5 +24,13 @@
   },
   "description": "Here is the starter project to start working.",
   "main": ".eslintrc.js",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HachimanKami/beerdex.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HachimanKami/beerdex/issues"
+  },
+  "homepage": "https://github.com/HachimanKami/beerdex#readme"
 }
