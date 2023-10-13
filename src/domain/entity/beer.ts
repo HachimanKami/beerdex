@@ -1,10 +1,6 @@
 type BeerDependencies = {
     id: number;
-    name: string;
-    description: string;
-    degreeAlcool: number;
-    levelBitterness: string;
-    color: string; // modifier le titre ultérieurement
+    name: string;  
   };
   
   export class Beer {

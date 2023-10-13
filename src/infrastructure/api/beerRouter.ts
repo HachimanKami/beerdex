@@ -6,9 +6,13 @@ export function createBeerRouter() {
 
   router.get("/", (_, res) =>
     res.json({
-      beers: getAllBeers(),
+      beers: getAllBeers({}),
     }),
   );
+
+  router.get("/beers/1",(_, res) => {
+    return res.json();
+  });
 
   return router;
 }
