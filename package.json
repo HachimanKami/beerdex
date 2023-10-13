@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Haha what tests ?\" && exit 1",
-    "start": "rimraf ./dist && node -r ts-node/register src/main"
+    "start": "rimraf ./dist && node -r ts-node/register src/infrastructure/api/main"
   },
   "author": "André Martel <martel_andre@proton.me>",
   "dependencies": {
