@@ -1,65 +1,64 @@
+import { join } from "path";
+import { promises } from "fs";
 import { TastedBeerRepository } from "../../../domain/repository/tasted-beer-repository";
 import { TastedBeer } from "../../../domain/entity/tastedBeer";
-import { PunkAPITastedBeerDeserializer } from "./local-tasted-beer-deserialiser"; 
-import { promises } from "fs";
-import { join } from "path";
- 
-// utiliser la librairie file systeme
 
-export class PunkAPITastedBeerRepository implements TastedBeerRepository {
+export class LocalTastedBeerRepository implements TastedBeerRepository {
+  private filePath: string;
 
-    private filePath :string;
-    
-    constructor(){
-      this.filePath = join(__dirname, "../../../data/prefered-beer.json")
+  constructor() {
+    this.filePath = join(__dirname, "../../../data/prefered-beer.json");
+  }
+
+  async getAllTastedBeers(): Promise<TastedBeer[]> {
+    try {6
+      const data = await promises.readFile(this.filePath);
+
+      return JSON.parse(data.toString()).tastedBeers;
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  }
+
+  async addTastedBeer(tastedBeer: TastedBeer): Promise<void> {
+    const tastedBeers = await this.getAllTastedBeers();
+
+    const hasAlreadyTasted = !!tastedBeers.find(({ id }) => id === tastedBeer.id);
+
+    if (hasAlreadyTasted) {
+      return;
     }
 
-    async getAllTastedBeers(): Promise<TastedBeer[]> {                  // On promet de retourner un tableau askip :)
-        try{
-          const data = await promises.readFile(this.filePath)
-            return JSON.parse(data.toJSON.toString()) // non completé 
-        } catch (err) {
-            return[];
-        }
+    tastedBeers.push(tastedBeer);
+
+    await promises.writeFile(
+      this.filePath,
+      JSON.stringify({
+        tastedBeers,
+      }),
+    );
+  }
+
+  async setBeerLikedOpinionOnTastedBeer(id: number, hasLiked: boolean): Promise<void> {
+    const tastedBeers = await this.getAllTastedBeers();
+    const tastedBeer = tastedBeers.find((tastedBeer) => tastedBeer.id === id);
+
+    if (!tastedBeer) {
+      throw new Error("Not found");
     }
 
-    async addTastedBeer(tastedBeer: TastedBeer): Promise<void> {
-      const tastedBeer = await this.getAllTastedBeers();
-      
-      const hasAlreadyTasted = 
-      
-      try{
-            const { data } = await this.get("/beers");
+    const indexOfTastedBeer = tastedBeers.map(({ id }) => id).indexOf(id);
 
-            if(!data?.length){
-                return[];
-            }
-            return data.map((punkAPIBeer: any) => 
-            );
-        } catch (err) {
-            return[];
-        }
-    }
+    tastedBeer.hasLiked = hasLiked;
 
-    async hasLikedBeer(id: number, like: boolean): Promise<void> {
-      const tastedBeers = await this.getAllTastedBeers();
-      const tastedBeer = tastedBeers.find((tastedBeer) => tastedBeer.id == id);
+    tastedBeers[indexOfTastedBeer] = tastedBeer;
 
-      if (!tastedBeer) {
-        throw new Error("Not found");
-      }
-      
-      const indexOfTastedBeer = tastedBeers.map(({id}) => id).indexOf(id);
-
-      tastedBeers.hasLiked = hasLiked;
-      
-      tastedBeers[indexOfTastedBeer] = tastedBeer;
-
-      await promises.writeFile(
-        this.filePath,
-        JSON.stringify({
-          tastedBeers,
-        }),
-      );
-    }
+    await promises.writeFile(
+      this.filePath,
+      JSON.stringify({
+        tastedBeers,
+      }),
+    );
+  }
 }

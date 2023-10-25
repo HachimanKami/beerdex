@@ -12,7 +12,7 @@ export class PunkAPIBeerRepository implements BeerRepository {
         });
     }
 
-    async getAllBeers(): Promise<Beer[]> {                  // On promet de retourner un tableau askip :)
+    async getAllBeers(): Promise<Beer[]> {                  
         try{
             const { data } = await this.http.get("/beers");
 
@@ -23,6 +23,23 @@ export class PunkAPIBeerRepository implements BeerRepository {
             );
         } catch (err) {
             return[];
+        }
+    }
+
+    async getBeer(id:Number): Promise<Beer|undefined> {                  
+        try{
+            console.log(id);
+            const { data } = await this.http.get("/beers/"+id);
+            console.log(data);
+            if(!data){
+                return undefined;
+            }
+
+            return PunkAPIBeerDeserializer.deserializer(data);
+
+        } catch (err) {
+                console.log(err);
+                return undefined;
         }
     }
 }
