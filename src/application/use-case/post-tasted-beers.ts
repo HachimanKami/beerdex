@@ -11,7 +11,6 @@ export type PostBeersDependancies = {
 export async function addTastedBeer( id: number, despTastedBeer: PostTastedBeersDependancies, despBeer: PostBeersDependancies): Promise<void> {
   
  const  beer = await despBeer.beerRepository.getBeer(id);
- 
  if(!beer){throw new Error("not found");}
 
  const tastedbeer= new TastedBeer({id : beer.id,name : beer.name});
@@ -22,5 +21,5 @@ export async function addTastedBeer( id: number, despTastedBeer: PostTastedBeers
  tastedbeer.levelBitterness=beer.levelBitterness;
 
  await despTastedBeer.tastedBeerRepository.addTastedBeer(tastedbeer);
-  
+      
 }

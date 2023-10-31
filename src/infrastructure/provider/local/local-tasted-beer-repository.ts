@@ -7,13 +7,13 @@ export class LocalTastedBeerRepository implements TastedBeerRepository {
   private filePath: string;
 
   constructor() {
-    this.filePath = join(__dirname, "../../../data/prefered-beer.json");
+    this.filePath = join(__dirname, "../../../../data/prefered-beers.json");
   }
 
   async getAllTastedBeers(): Promise<TastedBeer[]> {
-    try {6
+    try {
       const data = await promises.readFile(this.filePath);
-
+      
       return JSON.parse(data.toString()).tastedBeers;
     } catch (err) {
       console.error(err);
@@ -29,7 +29,6 @@ export class LocalTastedBeerRepository implements TastedBeerRepository {
     if (hasAlreadyTasted) {
       return;
     }
-
     tastedBeers.push(tastedBeer);
 
     await promises.writeFile(

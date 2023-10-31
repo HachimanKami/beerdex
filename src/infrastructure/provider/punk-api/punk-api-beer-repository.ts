@@ -28,9 +28,7 @@ export class PunkAPIBeerRepository implements BeerRepository {
 
     async getBeer(id:Number): Promise<Beer|undefined> {                  
         try{
-            console.log(id);
             const { data } = await this.http.get("/beers/"+id);
-            console.log(data);
             if(!data){
                 return undefined;
             }

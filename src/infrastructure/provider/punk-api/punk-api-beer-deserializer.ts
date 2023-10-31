@@ -4,8 +4,8 @@ import { defineBeerColor } from "./define-beer-color";
 export class PunkAPIBeerDeserializer {
     public static deserializer(source: any): Beer {
         
-        const { id, name, description, image_url, abv, ibu, ebc } = source;
-        const beer = new Beer({id, name });
+        const { id, name, description, image_url, abv, ibu, ebc } = source[0];
+        const beer = new Beer({ id, name });
 
         beer.description = description;
         beer.imageURL = image_url;

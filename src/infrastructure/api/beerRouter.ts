@@ -5,7 +5,6 @@ import { getAllTastedBeers } from "../../application/use-case/get-all-tasted-bee
 import { getStatsBeersTasted } from "../../application/use-case/get-stats-tasted-beers";
 import { makeTastedBeerRepository} from "../provider/tasted-beer-repository-factory";
 import { setBeerLikedOpinionOnTastedBeer } from "../../application/use-case/put-tasted-beers";
-import { getBeer } from "../../application/use-case/get-beer";
 import { addTastedBeer } from "../../application/use-case/post-tasted-beers";
 
 
@@ -20,13 +19,6 @@ export function createBeerRouter() {
       beers: await getAllBeers({ beerRepository }),
     }),
   );
-    
-  router.get("/:id", async (req, res) => {
-    const { id } = req.body;
-    res.json({
-      beers: await getBeer(id,{ beerRepository }),
-    })
-  });
 
   router.get("/me", async (_, res) =>
     res.json({
@@ -41,7 +33,6 @@ export function createBeerRouter() {
     }));
 
 
-  //loic
   router.post("/me", async (req, res)=> {
     const { id } = req.body;
      
